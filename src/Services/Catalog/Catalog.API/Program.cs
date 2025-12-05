@@ -9,10 +9,14 @@ builder.Services.AddCarter();
 //Add mediator method ->register the mediator services and register service from assembly method tells mediator where to find our command and query handler classes
 //MediatorR will handle bussiness logic through our command
 builder.Services.AddMediatR(config =>
-{
-    
+{    
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
 });
+
+builder.Services.AddMarten(opts =>
+{
+    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions();
 
 var app = builder.Build();
 

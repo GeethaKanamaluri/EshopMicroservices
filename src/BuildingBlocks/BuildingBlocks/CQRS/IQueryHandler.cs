@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BuildingBlocks.CQRS;
+using MediatR;
 
 namespace BuildingBlocks.CQRS
 {
@@ -8,4 +9,13 @@ namespace BuildingBlocks.CQRS
         where TResponse : notnull 
     {
     }
+
+    public interface IQueryHandler<in TQuery>
+       : IQueryHandler<TQuery, Unit>
+       where TQuery : IQuery<Unit>
+    { }
+
 }
+
+
+
