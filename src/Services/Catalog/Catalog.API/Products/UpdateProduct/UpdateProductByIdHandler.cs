@@ -1,7 +1,8 @@
 ﻿namespace Catalog.API.Products.UpdateProduct
 {
    
-    public record UpdateProductByIdCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price) : ICommand<UpdateProductByIdResult>;
+    public record UpdateProductByIdCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price) 
+        : ICommand<UpdateProductByIdResult>;
     public record UpdateProductByIdResult(bool isSuccess);
     public class UpdateProductByIdHandler(IDocumentSession session, ILogger<UpdateProductByIdHandler> logger) 
         : ICommandHandler<UpdateProductByIdCommand, UpdateProductByIdResult>

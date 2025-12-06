@@ -1,6 +1,6 @@
 ﻿namespace Catalog.API.Products.DeleteProduct
 {
-    public class Class
+    public class DeleteProductEndpoint
     {
     }
 }
