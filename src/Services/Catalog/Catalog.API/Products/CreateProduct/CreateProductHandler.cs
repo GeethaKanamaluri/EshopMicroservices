@@ -3,10 +3,25 @@
     public record CreateProcductCommand(string Name, List<string> Category, string Description, string ImageFile, decimal Price) :
      ICommand<CreateProductResult>;
     public record CreateProductResult(Guid Id);
-    public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProcductCommand, CreateProductResult>
+    
+    public class CreateProductCommandValidator : AbstractValidator<CreateProcductCommand>
+    {
+        public CreateProductCommandValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is Requried");
+        }
+    }
+    public class CreateProductCommandHandler(IDocumentSession session
+                                             //,IValidator<CreateProcductCommand> validator
+                                             ) 
+                                             : ICommandHandler<CreateProcductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProcductCommand command, CancellationToken cancelToken)
         {
+            //var result = await validator.ValidateAsync(command, cancelToken);
+            //var errors = result.Errors.Select(e => e.ErrorMessage).ToList();
+            //if (errors.Any()) { }
+
             //bussiness logic to create product          
             
             var product = new Product

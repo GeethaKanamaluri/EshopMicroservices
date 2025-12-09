@@ -4,17 +4,16 @@
     public record UpdateProductByIdCommand(Guid Id, string Name, List<string> Category, string Description, string ImageFile, decimal Price) 
         : ICommand<UpdateProductByIdResult>;
     public record UpdateProductByIdResult(bool isSuccess);
-    public class UpdateProductByIdHandler(IDocumentSession session, ILogger<UpdateProductByIdHandler> logger) 
+    public class UpdateProductByIdHandler(IDocumentSession session) 
         : ICommandHandler<UpdateProductByIdCommand, UpdateProductByIdResult>
     {
         public async Task<UpdateProductByIdResult> Handle(UpdateProductByIdCommand command, CancellationToken cancellationToken)
-        {
-            logger.LogInformation("UpdateProductByIdHandler.Handled called with {@query}", command);
+        {            
             var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
             if (product == null)
             {
-                throw new productNotFoundException();
+                throw new productNotFoundException(command.Id);
             }
 
             product.Name = command.Name;
